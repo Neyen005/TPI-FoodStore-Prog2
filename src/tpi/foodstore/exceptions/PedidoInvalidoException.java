@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package examen.prog2.service;
+package tpi.foodstore.exceptions;
 
 /**
  *
- * @author Usuario
+ * @author gaston
  */
-public class CategoriaService {
+public class PedidoInvalidoException extends Exception {
     
 }

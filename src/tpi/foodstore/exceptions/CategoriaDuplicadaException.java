@@ -2,12 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package examen.prog2.exception;
+package tpi.foodstore.exceptions;
 
 /**
  *
- * @author Usuario
+ * @author gaston
  */
-public class EntidadNoEncontradaException {
+public class CategoriaDuplicadaException extends Exception {
     
+    public CategoriaDuplicadaException(String mensaje){
+        super(mensaje);
+        
+    }
 }
