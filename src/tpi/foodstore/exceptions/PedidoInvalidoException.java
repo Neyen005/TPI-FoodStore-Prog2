@@ -6,8 +6,10 @@ package tpi.foodstore.exceptions;
 
 /**
  *
- * @author gaston
+ * @author gaston & fernando
  */
 public class PedidoInvalidoException extends Exception {
-    
+    public PedidoInvalidoException(String mensaje) {
+        super(mensaje);
+    }
 }
