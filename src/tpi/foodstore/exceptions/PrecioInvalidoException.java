@@ -4,10 +4,8 @@
  */
 package tpi.foodstore.exceptions;
 
-/**
- *
- * @author gaston
- */
-public class PrecioInvalidoException extends Exception {
-    
+public class PrecioInvalidoException extends RuntimeException {
+    public PrecioInvalidoException(String mensaje) {
+        super(mensaje); 
+    }
 }

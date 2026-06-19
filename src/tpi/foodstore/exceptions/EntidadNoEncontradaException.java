@@ -4,14 +4,8 @@
  */
 package tpi.foodstore.exceptions;
 
-/**
- *
- * @author gaston
- */
-public class EntidadNoEncontradaException extends Exception {
-    
-    public EntidadNoEncontradaException (String mensaje){
-        super(mensaje);
-        
+public class EntidadNoEncontradaException extends RuntimeException {
+    public EntidadNoEncontradaException(String mensaje) {
+        super(mensaje); // Pasamos el mensaje al padre
     }
 }

@@ -4,10 +4,8 @@
  */
 package tpi.foodstore.exceptions;
 
-/**
- *
- * @author gaston
- */
-public class StockInsuficienteException extends Exception {
-    
+public class StockInvalidoException extends RuntimeException {
+    public StockInvalidoException(String mensaje) {
+        super(mensaje); // Pasamos el mensaje al padre
+    }
 }

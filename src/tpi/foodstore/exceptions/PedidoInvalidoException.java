@@ -4,10 +4,8 @@
  */
 package tpi.foodstore.exceptions;
 
-/**
- *
- * @author gaston
- */
-public class PedidoInvalidoException extends Exception {
-    
+public class PedidoInvalidoException extends RuntimeException {
+    public PedidoInvalidoException(String mensaje) {
+        super(mensaje);
+    }
 }
