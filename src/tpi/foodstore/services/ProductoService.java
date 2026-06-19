@@ -26,12 +26,12 @@ public class ProductoService {
             throw new IllegalArgumentException("El nombre del producto no puede estar vacio.");
         }
 
-        // Ahora sí le podemos pasar el texto a tu excepción
+        
         if (precio == null || precio < 0) {
             throw new PrecioInvalidoException("El precio no puede ser negativo."); 
         }
 
-        // Ahora sí le podemos pasar el texto a tu excepción
+        
         if (stock < 0) {
             throw new StockInvalidoException("El stock no puede ser negativo."); 
         }
