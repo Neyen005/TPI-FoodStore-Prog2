@@ -22,6 +22,7 @@ public class CategoriaService {
         this.categorias = new ArrayList<>();
     }
 
+    
     public Categoria crearCategoria(String nombre, String descripcion)
             throws CategoriaDuplicadaException {
 
