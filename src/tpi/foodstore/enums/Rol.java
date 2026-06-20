@@ -10,5 +10,5 @@ package tpi.foodstore.enums;
  */
 public enum Rol {
     ADMIN,
-    USUARIO;
+    USUARIO, CLIENTE;
 }
