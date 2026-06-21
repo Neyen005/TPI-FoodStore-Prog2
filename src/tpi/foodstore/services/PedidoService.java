@@ -1,6 +1,5 @@
 package tpi.foodstore.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import tpi.foodstore.entities.Pedido;
@@ -8,6 +7,7 @@ import tpi.foodstore.entities.Producto;
 import tpi.foodstore.entities.Usuario;
 import tpi.foodstore.enums.Estado;
 import tpi.foodstore.enums.FormaPago;
+import tpi.foodstore.exceptions.EntidadNoEncontradaException;
 import tpi.foodstore.exceptions.PedidoInvalidoException;
 import tpi.foodstore.services.ProductoService;
 
@@ -23,26 +23,34 @@ public class PedidoService {
         if (usuario == null || usuario.isEliminado()) {
             throw new PedidoInvalidoException("Usuario invalido o inexistente.");
         }
-        Pedido nuevoPedido = new Pedido(LocalDate.now(), Estado.PENDIENTE, formaPago, usuario);
+        Pedido nuevoPedido = new Pedido(formaPago, usuario);
         pedidos.add(nuevoPedido);
         return nuevoPedido;
     }
 
-    public void agregarProducto(Long pedidoId, Long productoId, int cantidad) throws PedidoInvalidoException {
+    public void agregarProducto(
+            Long pedidoId, Long productoId,
+            int cantidad
+    ) throws PedidoInvalidoException, EntidadNoEncontradaException {
         Pedido pedido = buscarPorId(pedidoId);
         
         if (pedido.getEstado() != Estado.PENDIENTE) {
             throw new PedidoInvalidoException("El pedido ya no esta pendiente, no se pueden agregar productos.");
         }
 
-        try {
-            Producto producto = productoService.buscarPorId(productoId);
-            productoService.descontarStock(productoId, cantidad);
-            pedido.addDetallePedido(cantidad, producto);
-        } catch (ProductoException e) {
-            // si falla el stock o el producto, lo transformamos en un pedido invalido
-            throw new PedidoInvalidoException("No se pudo agregar el producto: " + e.getMessage());
+        // buscar el producto
+        Producto producto = productoService.buscarProductoPorId(productoId);
+        
+        // verificar stock
+        if (producto.getStock() < cantidad) {
+            throw new PedidoInvalidoException("Stock insuficiente. Disponible: " + producto.getStock());
         }
+        
+        // agregar al pedido
+        pedido.addDetallePedido(cantidad, producto);
+        
+        // reducir el stock
+        productoService.actualizarStock(productoId, -cantidad);
     }
 
     public Pedido buscarPorId(Long id) throws PedidoInvalidoException {
@@ -62,5 +70,20 @@ public class PedidoService {
         }
         
         pedido.setEstado(nuevoEstado);
+    }
+    
+    public void eliminarPedido(Long pedidoId) throws PedidoInvalidoException {
+        Pedido pedido = buscarPorId(pedidoId);
+        pedido.setEliminado(true);
+    }
+    
+    public List<Pedido> listarPedidos() {
+        List<Pedido> pedidosActivos = new ArrayList<>();
+        for (Pedido p : pedidos) {
+            if (!p.isEliminado()) {
+                pedidosActivos.add(p);
+            }
+        }
+        return pedidosActivos;
     }
 }

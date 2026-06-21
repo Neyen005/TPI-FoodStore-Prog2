@@ -70,8 +70,8 @@ public class UsuarioService {
         usuarios.add(usuario);
         return usuario;
     }
-//BUSCAR USUARIO
 
+    //BUSCAR USUARIO
     public Usuario buscarUsuarioPorId(Long id) throws EntidadNoEncontradaException {
 
         for (Usuario usuario : usuarios) {
@@ -81,8 +81,8 @@ public class UsuarioService {
         }
         throw new EntidadNoEncontradaException("No existe un usuario con ese ID.");
     }
-//EDITAR USUARIO
-
+    
+    //EDITAR USUARIO
     public Usuario editarUsuario(Long id, String nombre, String apellido, String mail, String celular, String contrasenia, Rol rol) throws EntidadNoEncontradaException, UsuarioDuplicadoException {
         Usuario usuario = buscarUsuarioPorId(id);
 
@@ -130,8 +130,8 @@ public class UsuarioService {
         
         return usuario;
     }
+    
     //Eliminar Usuario
-
     public Usuario eliminarUsuario(Long id) throws UsuarioDuplicadoException, EntidadNoEncontradaException {
         Usuario usuario = buscarUsuarioPorId(id);
 

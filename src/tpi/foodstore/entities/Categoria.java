@@ -18,8 +18,7 @@ public class Categoria extends Base {
     private List<Producto> productos;
  
     public Categoria(String nombre, String descripcion) {
-        
-         ;
+        super();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.productos = new ArrayList<>();

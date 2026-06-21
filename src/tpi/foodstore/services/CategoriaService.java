@@ -69,27 +69,41 @@ public class CategoriaService {
         throw new EntidadNoEncontradaException("No existe categoria con ese ID.");
     }
 
-    public Categoria editarCategoria(Long id, String nombre, String descripcion) throws EntidadNoEncontradaException, CategoriaDuplicadaException {
+    public Categoria editarCategoria(
+            Long id, 
+            String nombre, 
+            String descripcion
+    ) throws EntidadNoEncontradaException, CategoriaDuplicadaException {
         Categoria categoria = buscarCategoriaPorId(id);
 
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacio.");
-        }
+        // validar y actualizar nombre si se proporciona
+        if (nombre != null) {
+            String nombreTrimmed = nombre.trim();
+            if (nombreTrimmed.isEmpty()) {
+                throw new IllegalArgumentException("El nombre no puede estar vacío.");
+            }
 
-        if (descripcion == null || descripcion.trim().isEmpty()) {
-            throw new IllegalArgumentException("La descripcion no puede estar vacia.");
-        }
-
-        nombre = nombre.trim();
-        descripcion = descripcion.trim();
-
-        for (Categoria otraCategoria : categorias) {
-            if (!otraCategoria.isEliminado() && otraCategoria.getId().equals(id) && otraCategoria.getNombre().equalsIgnoreCase(nombre)) {
-                throw new CategoriaDuplicadaException("Ya existe una categoria con ese nombre.");
+            // verificar duplicados SOLO si el nombre cambio
+            if (!nombreTrimmed.equalsIgnoreCase(categoria.getNombre())) {
+                for (Categoria otraCategoria : categorias) {
+                    if (!otraCategoria.isEliminado() 
+                        && !otraCategoria.getId().equals(id)
+                        && otraCategoria.getNombre().equalsIgnoreCase(nombreTrimmed)) {
+                        throw new CategoriaDuplicadaException("Ya existe una categoría con ese nombre.");
+                    }
+                }
+                categoria.setNombre(nombreTrimmed);
             }
         }
-        categoria.setNombre(nombre);
-        categoria.setDescripcion(descripcion);
+
+        // validar y actualizar descripcion si se proporciona
+        if (descripcion != null) {
+            String descripcionTrimmed = descripcion.trim();
+            if (descripcionTrimmed.isEmpty()) {
+                throw new IllegalArgumentException("La descripción no puede estar vacía.");
+            }
+            categoria.setDescripcion(descripcionTrimmed);
+        }
         return categoria;
     }
 

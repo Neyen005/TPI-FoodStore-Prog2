@@ -13,5 +13,4 @@ public enum Estado {
     CONFIRMADO,
     TERMINADO,
     CANCELADO;  
-    
 }
